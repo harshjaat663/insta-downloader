@@ -3,51 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Downloader</title>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <title>Instagram Video Player</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    #video-container {
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    #video-player {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <div class="container-fluid">
-    <div id="header">
-      <h1>INSTA<span style="color: red">DOWNLOAD</span></h1>
-      <h4>Instagram photo and video downloader</h4>
-      
-      <div id="input-link">
-        <input id="instagram-link" type="text" placeholder="https://instagram.com/profilename/41SW_pmmq4/" width="80">
-        <button class="btn btn-danger">Download</button>
-      </div>
-    </div>
-  </div>  
+  <div id="video-container">
+    <input type="text" id="video-url" placeholder="Enter video URL">
+    <button onclick="loadVideo()">Load Video</button>
+    <video id="video-player" controls>
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
   <script>
-    $(document).ready(function() {
-      $(".btn").click(function() {
-        $.ajax({
-          url: "https://cors-anywhere.herokuapp.com/" + $("#instagram-link").val(),
-          type: 'GET',
-          dataType: "html",
-          crossDomain: true,
-          success: function(data) {
-            if ($(data).filter('meta[property="og:video"]').attr("content")) {
-              var downloadlink = $(data).filter('meta[property="og:video"]').attr("content");
-              var a = $("<a>")
-                .attr("href", downloadlink)
-                .attr("download", "video.mp4")
-                .appendTo("body");
-              a[0].click();
-              a.remove();
-            } else {
-              var downloadlink = $(data).filter('meta[property="og:image"]').attr("content");
-              var a = $("<a>")
-                .attr("href", downloadlink)
-                .attr("download", "img.png")
-                .appendTo("body");
-              a[0].click();
-              a.remove();
-            }
-          }
-        });
-      });
-    });
+    function loadVideo() {
+      var videoUrl = document.getElementById('video-url').value;
+      var videoPlayer = document.getElementById('video-player');
+      var source = document.createElement('source');
+
+      // Set the source of the video player based on user input
+      source.src = videoUrl;
+      source.type = 'video/mp4';
+
+      // Clear existing sources and append the new one
+      while (videoPlayer.firstChild) {
+        videoPlayer.removeChild(videoPlayer.firstChild);
+      }
+      videoPlayer.appendChild(source);
+    }
   </script>
 </body>
 </html>
