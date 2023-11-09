@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Downloader</title>
+  <link rel="stylesheet" href="ruff.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div id="header">
+      <h1>INSTA<span style="color: red">DOWNLOAD</span></h1>
+      <h4>Instagram photo and video downloader</h4>
+      
+      <div id="input-link">
+        <input type="text" placeholder="https://instagram.com/profilename/41SW_pmmq4/" width="80">
+        <button class="btn btn-danger">Download</button>
+      </div>
+    </div>
+  </div>  
+  <script src="ruff.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".btn").click(function() {
+        $.ajax({
+          url: "https://cors-anywhere.herokuapp.com/" + $("input").val(),
+          type: 'GET',
+          dataType: "jsonp",
+          crossDomain: true,
+          success: function(data) {
+            if ($(data).filter('meta[property="og:video"]').attr("content")) {
+              var downloadlink = $(data).filter('meta[property="og:video"]').attr("content");
+              var a = $("<a>")
+                .attr("href", downloadlink)
+                .attr("download", "video.mp4")
+                .appendTo("body");
+              a[0].click();
+              a.remove();
+            } else {
+              var downloadlink = $(data).filter('meta[property="og:image"]').attr("content");
+              var a = $("<a>")
+                .attr("href", downloadlink)
+                .attr("download", "img.png")
+                .appendTo("body");
+              a[0].click();
+              a.remove();
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
