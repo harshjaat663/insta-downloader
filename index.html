@@ -13,7 +13,7 @@
       <h4>Instagram photo and video downloader</h4>
       
       <div id="input-link">
-        <input type="text" placeholder="https://instagram.com/profilename/41SW_pmmq4/" width="80">
+        <input id="instagram-link" type="text" placeholder="https://instagram.com/profilename/41SW_pmmq4/" width="80">
         <button class="btn btn-danger">Download</button>
       </div>
     </div>
@@ -22,9 +22,9 @@
     $(document).ready(function() {
       $(".btn").click(function() {
         $.ajax({
-          url: "https://cors-anywhere.herokuapp.com/" + $("input").val(),
+          url: "https://cors-anywhere.herokuapp.com/" + $("#instagram-link").val(),
           type: 'GET',
-          dataType: "html", // Change to "html"
+          dataType: "html",
           crossDomain: true,
           success: function(data) {
             if ($(data).filter('meta[property="og:video"]').attr("content")) {
