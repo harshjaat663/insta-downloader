@@ -26,7 +26,7 @@
         $.ajax({
           url: "https://cors-anywhere.herokuapp.com/" + $("input").val(),
           type: 'GET',
-          dataType: "jsonp",
+          dataType: "html", // Change to "html"
           crossDomain: true,
           success: function(data) {
             if ($(data).filter('meta[property="og:video"]').attr("content")) {
