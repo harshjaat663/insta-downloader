@@ -42,8 +42,12 @@
       var videoPlayer = document.getElementById('video-player');
       var source = document.createElement('source');
 
+      // Use CORS Anywhere proxy for the video URL
+      var corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      var proxiedVideoUrl = corsProxyUrl + videoUrl;
+
       // Set the source of the video player based on user input
-      source.src = videoUrl;
+      source.src = proxiedVideoUrl;
       source.type = 'video/mp4';
 
       // Clear existing sources and append the new one
